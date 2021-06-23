@@ -16,19 +16,19 @@ clc
 restoredefaultpath
 format long
 warning('off','all')
-addpath(genpath('../QPAT_EWE_DGM2D_Codes_Hwan'))
+addpath(genpath('../qpat-ewe-dgm'))
 
-%adding paths one by one because the servers don't like the genpath command 
-addpath('QPAT_EWE_DGM2D_Codes_Hwan')
-addpath('QPAT_EWE_DGM2D_Codes_Hwan/AcousticForwardProblemDGM')
-addpath('QPAT_EWE_DGM2D_Codes_Hwan/AcousticInverseProblemDGM')
-addpath('QPAT_EWE_DGM2D_Codes_Hwan/HesthavenAndWarburtonCodes')
-addpath('QPAT_EWE_DGM2D_Codes_Hwan/MATFiles')
-addpath('QPAT_EWE_DGM2D_Codes_Hwan/MeshGenerationAndInterpolation')
-addpath('QPAT_EWE_DGM2D_Codes_Hwan/Miscellaneous')
-addpath('QPAT_EWE_DGM2D_Codes_Hwan/OpticalForwardProblemFEM')
-addpath('QPAT_EWE_DGM2D_Codes_Hwan/OpticalInverseProblemFEM')
-addpath('QPAT_EWE_DGM2D_Codes_Hwan/ParameterGeneration')
+%adding paths one by one because the servers don't like the genpath command
+addpath('qpat-ewe-dgm')
+addpath('qpat-ewe-dgm/AcousticForwardProblemDGM')
+addpath('qpat-ewe-dgm/AcousticInverseProblemDGM')
+addpath('qpat-ewe-dgm/HesthavenAndWarburtonCodes')
+addpath('qpat-ewe-dgm/MATFiles')
+addpath('qpat-ewe-dgm/MeshGenerationAndInterpolation')
+addpath('qpat-ewe-dgm/Miscellaneous')
+addpath('qpat-ewe-dgm/OpticalForwardProblemFEM')
+addpath('qpat-ewe-dgm/OpticalInverseProblemFEM')
+addpath('qpat-ewe-dgm/ParameterGeneration')
 
 %% =======================================================================%
 %                        Demonstration Properties
@@ -91,7 +91,7 @@ MeshD.Dimensns = (1/2)*[0.02 0.02]; %Width and height of the rectangle, default 
 MeshD.N_BndElmx = 5; %Number of boundary elements in 0.005m for top and bottom edges, default = 5
 MeshD.N_BndElmy = 5; %Number of boundary elements in 0.005m for left and right edges, default = 5
 %Inversion Mesh Properties
-MeshI.Dimensns=[MeshD.Dimensns(1) MeshD.Dimensns(2)]; %Width and height of the rectangle from center  
+MeshI.Dimensns=[MeshD.Dimensns(1) MeshD.Dimensns(2)]; %Width and height of the rectangle from center
 MeshI.N_BndElmx = 3; %Number of boundary elements in 0.005m for top and bottom edges, default = 3
 MeshI.N_BndElmy = 3; %Number of boundary elements in 0.005m for left and right edges, default = 3
 end
@@ -99,7 +99,7 @@ end
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Optical Forward Problem %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %=== Acoustic Parameters ===% %More optical parameters in QPATPrmtrs2D, but these do not need to be changed as often
 PrmtrsI.mu_sEst = 2; %Constant Value for the Scattering Coefficient, [mm^-1]
 
@@ -233,7 +233,7 @@ Prior.Exp_h = 70; %Expected Value of h, Default = 70
 Prior.InformSmooth_Normalize = 0; %Normalize the covariance
 Prior.InformSmooth_Bounds_h = [0,450]; % approximately [h_min, h_max], Default = [0, 450]
 Prior.InformSmooth_Corr_h = [0.008 0.008]*RunOptions.ScalingOptical; %[correlation_x, correlation_y]
-Prior.InformSmooth_STD_h = (Prior.InformSmooth_Bounds_h(2) - Prior.Exp_h)/2.5; 
+Prior.InformSmooth_STD_h = (Prior.InformSmooth_Bounds_h(2) - Prior.Exp_h)/2.5;
 Prior.AC_Var_h = 150^2; %Variance of p_0
 Prior.AC_Corr_h = 0.001; %Correlation Length of h, Default: 0.0001;
 %=== Prior for Elastic Layer ===%
@@ -255,7 +255,7 @@ Prior.SigTkappa = 1/Prior.SigTbeta; %Parameter of the sigmoid transform
 Prior.SigTdelta = (Prior.Exp_h+3*Prior.InformSmooth_STD_h)/2; %Parameter of the sigmoid transform
 %=== Absorption Coefficient ===%
 Prior.Exp_mu_a = 0.05; %Expected value of mu_a
-Prior.InformSmooth_Bounds_mu_a = [0.01,0.35]; % approximately [mu_a_min, mu_a_max] 
+Prior.InformSmooth_Bounds_mu_a = [0.01,0.35]; % approximately [mu_a_min, mu_a_max]
 Prior.InformSmooth_Corr_mu_a = [0.008 0.008]*RunOptions.ScalingOptical; %[correlation_x, correlation_y], Default = [8 8]
 if RunOptions.ScalingOptical == 1 %When the optical forward mesh is in metres (RunOptions.ScalingOptical = 1), we convert mm^-1 to m^-1. Note that m^-1 = (10^-3mm)^-1 = 10^3mm^-1
     Prior.InformSmooth_Bounds_mu_a = Prior.InformSmooth_Bounds_mu_a*10^3;
@@ -264,7 +264,7 @@ end
 Prior.AC_Var_mu_a = 0.96*10^2; %Variance of p_0
 Prior.AC_Corr_mu_a = 0.002; %Correlation Length of mu_a
 Prior.Exp_mu_s = 2; %Initial guess of mu_s
-Prior.InformSmooth_Bounds_mu_s = [2,2.3]; % approximately [mu_s_min, mu_s_max] 
+Prior.InformSmooth_Bounds_mu_s = [2,2.3]; % approximately [mu_s_min, mu_s_max]
 Prior.InformSmooth_Corr_mu_s = [0.008 0.008]*RunOptions.ScalingOptical; %[correlation_x, correlation_y], Default = [8 8]
 if RunOptions.ScalingOptical == 1 %When the optical forward mesh is in metres (RunOptions.ScalingOptical = 1), we convert mm^-1 to m^-1. Note that m^-1 = (10^-3mm)^-1 = 10^3mm^-1
     Prior.InformSmooth_Bounds_mu_s = Prior.InformSmooth_Bounds_mu_s*10^3;
@@ -329,11 +329,11 @@ else
     %=== Using Trelis Generated Mesh ===%
     RunOptions.LoadFileNameMeshD = sprintf('Mesh-%s',RunOptions.TrelisMeshDElementSize);
     load(RunOptions.LoadFileNameMeshD);
-    MeshD = Mesh; 
+    MeshD = Mesh;
     clear Mesh
     RunOptions.LoadFileNameMeshI = sprintf('Mesh-%s',RunOptions.TrelisMeshIElementSize);
     load(RunOptions.LoadFileNameMeshI);
-    MeshI = Mesh; 
+    MeshI = Mesh;
     clear Mesh
 end
 %keyboard %keyboard here to save newly generated mesh
@@ -342,10 +342,10 @@ end
 PlotFEMMesh
 
 %=== Generate the Parameters ===%
-QPAT_EWE_DGM2D_Prmtrs 
+QPAT_EWE_DGM2D_Prmtrs
 
 %=== Check if Committing Inverse Crime ===%
-if RunOptions.UseMyRectangularMesh == 1 && (MeshD.N_BndElmx == MeshI.N_BndElmx); 
+if RunOptions.UseMyRectangularMesh == 1 && (MeshD.N_BndElmx == MeshI.N_BndElmx);
     RunOptions.InverseCrime = 1;
 else
     RunOptions.InverseCrime = 0;
@@ -355,7 +355,7 @@ end
 %                         Display Selected Options
 %=========================================================================%
 if RunOptions.UseTrelisMesh == 1
-    FilenamesofRunOptions  
+    FilenamesofRunOptions
     %=== Displayed Text ===%
     printf(['MeshD Number of Elements: ' num2str(MeshD.N_Elm)]);
     printf(['MeshD Number of Nodes: ' num2str(MeshD.N_Nodes)]);
@@ -395,7 +395,7 @@ end
 %=========================================================================%
                           %==================%
                           %    Setting Up    %
-                          %==================%                            
+                          %==================%
 %%%%%%%%%%%%%%%%%%
 %%% Set Up DGM %%%
 %%%%%%%%%%%%%%%%%%
@@ -412,7 +412,7 @@ AcousticForwardTimeStepsize
 
                          %====================%
                          %    Computations    %
-                         %====================%    
+                         %====================%
 %===============================%
 %    Optical Forward Problem    %
 %===============================%
@@ -420,7 +420,7 @@ QPAT_DA_FEM2D_OpticalForward
 
 %================================%
 %    Acoustic Forward Problem    %
-%================================%                 
+%================================%
 QPAT_EWE_DGM2D_AcousticForward
 
 %% =======================================================================%
@@ -463,4 +463,4 @@ if RunOptions.AE_DA == 0;
     DataVrblsWave.SensorsI = 'Not Required';
     dt = 'Not Required';
 end
-[mu_aRecon,OpticalInverseItrtnInfo,Trmntn] = QPAT_DA_FEM2D_OpticalInverse(RunOptions,DataVrblsOptical,MeshD,MeshI,PrmtrsD,PrmtrsI,PrmtrsPrp,Prior,DGMMeshI,PrecomputedIntrplteObjectsI,DataVrblsWave.SensorsI,dt,PLOT);    
+[mu_aRecon,OpticalInverseItrtnInfo,Trmntn] = QPAT_DA_FEM2D_OpticalInverse(RunOptions,DataVrblsOptical,MeshD,MeshI,PrmtrsD,PrmtrsI,PrmtrsPrp,Prior,DGMMeshI,PrecomputedIntrplteObjectsI,DataVrblsWave.SensorsI,dt,PLOT);
