@@ -1,0 +1,30 @@
+reset
+create surface rectangle width 0.02 height 0.02 zplane
+create brick width 0.015 depth 0.015 height 0.015
+volume 2 move 0.0015 0.0015 0
+create sheet extended from surface 4 5 6 7
+delete volume 2
+webcut body 1 with sheet body 3
+delete volume 3
+create brick width 0.010 depth 0.010 height 0.010
+volume 5 move 0.0008 0.0008 0
+create sheet extended from surface 16 17 18 19
+delete volume 5
+webcut body 1 with sheet body 6
+delete volume 6
+merge vol all
+surface 13 size 0.000450
+surface 13 scheme trimesh
+mesh surface 13
+surface 25 size 0.000450
+surface 25 scheme trimesh
+mesh surface 25
+surface 24 size 0.000450
+surface 24 scheme trimesh
+mesh surface 24
+Block 1 surface 13
+Block 2 surface 25
+Block 3 surface 24
+SideSet 1 Curve 1 2 3 4
+NodeSet 1 Curve 1 2 3 4
+export Abaqus "D:/Dropbox/Work/PhD/PhD_Stuff/Codes/QPAT_EWE_DGM2D_Codes_Hwan/MeshGenerationAndInterpolation/Trelis_QPATMesh_Inverse.inp" dimension 2 block all overwrite
